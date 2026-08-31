@@ -1,0 +1,39 @@
+name: aula-video-pip
+services:
+  nginx:
+    image: aula-video-pip-web:1.0.0
+    build:
+      context: .
+      target: web
+    ports:
+      - "${AULA_BIND_IP:-127.0.0.1}:${AULA_PORT:-8090}:80/tcp"
+    depends_on:
+      mediamtx:
+        condition: service_started
+    read_only: true
+    tmpfs:
+      - /tmp:size=32m,mode=1777
+      - /var/cache/nginx:size=16m
+    security_opt: ["no-new-privileges:true"]
+    logging: { driver: none }
+    healthcheck:
+      test: ["CMD", "wget", "-q", "-O", "/dev/null", "http://127.0.0.1/healthz"]
+      interval: 5s
+      timeout: 3s
+      retries: 10
+
+  mediamtx:
+    image: aula-video-pip-media:1.0.0
+    build:
+      context: .
+      target: media
+    environment:
+      MTX_WEBRTCADDITIONALHOSTS: ${LAN_IP:-127.0.0.1}
+      MTX_WEBRTCLOCALUDPADDRESS: ":${WEBRTC_PORT:-8190}"
+      MTX_AUTHINTERNALUSERS_0_PASS: ${MEDIA_PUBLISH_PASSWORD:?Falta MEDIA_PUBLISH_PASSWORD en .env}
+    ports:
+      - "${AULA_BIND_IP:-127.0.0.1}:${WEBRTC_PORT:-8190}:${WEBRTC_PORT:-8190}/udp"
+    read_only: true
+    security_opt: ["no-new-privileges:true"]
+    cap_drop: [ALL]
+    logging: { driver: none }

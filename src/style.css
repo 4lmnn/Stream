@@ -1,0 +1,217 @@
+* {
+  box-sizing: border-box;
+}
+
+html {
+  color-scheme: dark;
+  background: #050505;
+}
+
+body {
+  margin: 0;
+  min-width: 320px;
+  min-height: 100vh;
+  min-height: 100dvh;
+  background: #050505;
+  color: #f4f4f4;
+  font-family: system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+}
+
+main {
+  min-height: 100vh;
+  min-height: 100dvh;
+}
+
+figure {
+  width: 100%;
+  margin: 0;
+}
+
+.cinema {
+  position: relative;
+  display: grid;
+  place-items: center;
+  width: 100%;
+  height: min(56.25vw, 40.5rem);
+  overflow: hidden;
+  isolation: isolate;
+  background: #000;
+}
+
+.cinema::after {
+  position: absolute;
+  z-index: -1;
+  inset: 0;
+  content: "";
+  background: rgb(255 255 255 / 5%);
+  backdrop-filter: blur(1rem);
+}
+
+.ambient-video {
+  position: absolute;
+  z-index: -2;
+  inset: -3rem;
+  width: calc(100% + 6rem);
+  height: calc(100% + 6rem);
+  object-fit: cover;
+  pointer-events: none;
+  opacity: 0.92;
+  filter: grayscale(1) blur(2.75rem) brightness(0.82) contrast(1.35);
+  transform: scale(1.08);
+}
+
+.ambient-video[hidden] {
+  display: none;
+}
+
+.player {
+  position: relative;
+  width: min(100%, 72rem);
+  height: 100%;
+  background: #000;
+  box-shadow:
+    0 0 0 1px rgb(255 255 255 / 12%),
+    0 0 3.5rem rgb(255 255 255 / 10%);
+}
+
+#video {
+  display: block;
+  width: 100%;
+  height: 100%;
+  object-fit: contain;
+  background: #000;
+}
+
+#stream-placeholder {
+  position: absolute;
+  inset: 0;
+  display: grid;
+  place-content: center;
+  gap: 1.25rem;
+  padding: 1.5rem;
+  background: #080808;
+  color: #d4d4d4;
+  text-align: center;
+}
+
+#stream-placeholder[hidden] {
+  display: none;
+}
+
+.ascii-loader {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.2em;
+  font-family: ui-monospace, "SFMono-Regular", Consolas, monospace;
+  font-size: clamp(1.5rem, 4vw, 2.5rem);
+  font-weight: 400;
+  letter-spacing: 0.12em;
+}
+
+.ascii-loader-mark {
+  display: inline-block;
+  animation: ascii-spin 900ms steps(4, end) infinite;
+}
+
+#stream-placeholder[data-state="unavailable"] .ascii-loader {
+  display: none;
+}
+
+#stream-placeholder[data-state="connecting"] #placeholder-text {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  overflow: hidden;
+  clip-path: inset(50%);
+}
+
+#placeholder-text {
+  margin: 0;
+  font-family: ui-monospace, "SFMono-Regular", Consolas, monospace;
+  font-size: clamp(0.9rem, 1.8vw, 1.05rem);
+  letter-spacing: 0.04em;
+  text-transform: lowercase;
+}
+
+figcaption {
+  display: flex;
+  align-items: baseline;
+  justify-content: space-between;
+  gap: 2rem;
+  width: min(calc(100% - 2rem), 72rem);
+  margin-inline: auto;
+  padding-block: clamp(1.15rem, 2.5vw, 1.75rem);
+}
+
+#stream-title {
+  margin: 0;
+  color: #f3f3f3;
+  font-size: clamp(1.1rem, 2.4vw, 1.55rem);
+  font-weight: 550;
+  line-height: 1.25;
+  letter-spacing: -0.02em;
+}
+
+#stream-status {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.55rem;
+  flex: none;
+  margin: 0;
+  color: #9b9b9b;
+  font-family: ui-monospace, "SFMono-Regular", Consolas, monospace;
+  font-size: 0.78rem;
+  font-weight: 500;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+}
+
+.status-dot {
+  display: none;
+}
+
+#stream-status[data-state="live"] {
+  color: #efefef;
+}
+
+#stream-status[data-state="live"] .status-dot {
+  display: inline;
+  color: #fff;
+  filter: drop-shadow(0 0 0.3rem #fff8);
+}
+
+@keyframes ascii-spin {
+  to {
+    transform: rotate(1turn);
+  }
+}
+
+@media (max-width: 72rem) {
+  .ambient-video,
+  .cinema::after {
+    display: none;
+  }
+
+  .player {
+    width: 100%;
+    box-shadow: none;
+  }
+}
+
+@media (max-width: 40rem) {
+  figcaption {
+    align-items: flex-start;
+    flex-direction: column;
+    gap: 0.65rem;
+  }
+
+  #stream-title {
+    font-size: 1.05rem;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .ascii-loader-mark {
+    animation: none;
+  }
+}

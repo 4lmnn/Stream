@@ -1,0 +1,7 @@
+node_modules
+**/node_modules
+.git
+.env
+*.tar
+.DS_Store
+# No excluir dist: la imagen web copia TU frontend compilado.

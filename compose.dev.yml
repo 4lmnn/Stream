@@ -1,0 +1,12 @@
+# Combinar con compose.yml. Sigue habiendo solo Nginx y MediaMTX.
+services:
+  nginx:
+    volumes:
+      - ./dist:/srv/aula:ro
+    logging:
+      driver: local
+      options: { max-size: "5m", max-file: "1", compress: "false" }
+  mediamtx:
+    logging:
+      driver: local
+      options: { max-size: "5m", max-file: "1", compress: "false" }

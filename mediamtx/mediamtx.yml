@@ -1,0 +1,36 @@
+logLevel: warn
+logDestinations: [stdout]
+authMethod: internal
+authInternalUsers:
+  - user: profesor
+    # Compose sustituye esta contraseña desde el archivo privado .env.
+    pass: ""
+    permissions:
+      - action: publish
+        path: classroom
+  - user: any
+    permissions:
+      - action: read
+        path: classroom
+
+api: false
+metrics: false
+pprof: false
+rtsp: false
+rtmp: false
+hls: false
+srt: false
+moq: false
+playback: false
+webrtc: true
+webrtcAddress: :8889
+webrtcLocalUDPAddress: :8190
+webrtcLocalTCPAddress: ""
+webrtcIPsFromInterfaces: false
+webrtcICEServers2: []
+pathDefaults:
+  source: publisher
+  overridePublisher: false
+  record: false
+paths:
+  classroom:

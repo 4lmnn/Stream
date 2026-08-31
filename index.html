@@ -1,0 +1,63 @@
+<!doctype html>
+<html lang="es">
+  <head>
+    <meta charset="UTF-8">
+    <meta
+      name="viewport"
+      content="width=device-width, initial-scale=1"
+    >
+
+    <title>Clase en directo</title>
+    <link rel="stylesheet" href="/src/style.css">
+  </head>
+
+  <body>
+    <main>
+      <figure>
+        <div class="cinema">
+          <video
+            id="ambient-video"
+            class="ambient-video"
+            muted
+            autoplay
+            playsinline
+            disablepictureinpicture
+            aria-hidden="true"
+            tabindex="-1"
+            hidden
+          ></video>
+
+          <div class="player">
+            <video id="video" controls muted autoplay playsinline>
+              Tu navegador no puede reproducir esta transmisión.
+            </video>
+
+            <div id="stream-placeholder" hidden aria-hidden="true">
+              <span class="ascii-loader">
+                [ <span class="ascii-loader-mark">◌</span> ]
+              </span>
+              <p id="placeholder-text">Conectando…</p>
+            </div>
+          </div>
+        </div>
+
+        <figcaption>
+          <h1 id="stream-title">Programación para ingenieros</h1>
+
+          <p
+            id="stream-status"
+            role="status"
+            aria-live="polite"
+            data-state="connecting"
+          >
+            <span class="status-dot" aria-hidden="true">●</span>
+            <span id="status-text">Conectando…</span>
+          </p>
+        </figcaption>
+      </figure>
+    </main>
+
+    <script src="/reader.js"></script>
+    <script type="module" src="/src/main.ts"></script>
+  </body>
+</html>
